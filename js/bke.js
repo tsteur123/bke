@@ -5,6 +5,7 @@ function clearGameField() {
     GAME_FIELD[celnum].src = "img/empty.jpg";
   }
 }
+
 //bepalen wie aan de beurt is
 var randomStart = Math.floor(Math.random() * 2);
 $( document ).ready(function() {
@@ -19,24 +20,25 @@ $( document ).ready(function() {
 //start button
 $(".game-button").click(function(){
     $(".game-button").html("Reset spel");
-
 });
+
 //reset button
 $(".game-button").click(function(){
     if ($(".game-button").html() == "Reset spel") {
         clearGameField();
     }
 });
+
 //als je op het speelveld klikt
-$("#speelveld tr td").one('click', function (event) {
-    if ($(".game-button").html() == "Start spel") {
-        alert("Je kunt nog niet beginnen");
-    } else {
+$("#speelveld tr td").click( function (event) {
+    if($(".game-button").html() == "Reset spel" && $(this).children().attr("src") == "img/empty.jpg") {
+
         if(randomStart == 0){
             var val = $(this).children().attr('src', 'img/cross.jpg');
             randomStart = 1;
             $("#spelerBeurt").html("1");
             $("#turnImg").attr("src", "img/circle.jpg");
+            $(this).children().unbind("click");
         }
         else {
             var val = $(this).children().attr('src', 'img/circle.jpg');
@@ -44,6 +46,10 @@ $("#speelveld tr td").one('click', function (event) {
             $("#spelerBeurt").html("0");
             $("#turnImg").attr("src", "img/cross.jpg");
             $('src', 'img/circle.jpg').unbind("click");
+            $(this).children().unbind("click");
         }
+    }
+    if ($(".game-button").html() == "Start spel") {
+        alert("Je kunt nog niet beginnen");
     }
 });
